@@ -1,0 +1,28 @@
+{
+    "version": 2,
+    "name": "KrakenD",
+    "port": 8080,
+    "cache_ttl": "3600s",
+    "timeout": "3s",    
+    "endpoints": [
+        {
+            "endpoint": "/process-images",
+	    "method": "POST",
+            "backend": [
+                {
+                    "host": [ "http://splitter:8080" ],
+                    "url_pattern": "/process-images"
+                }
+            ]
+        },
+        {
+            "endpoint": "/job-status/{jobId}",
+            "backend": [
+                {
+                    "host": [ "http://joiner:8080" ],
+                    "url_pattern": "/job-status/{jobId}"                    
+                }
+            ]
+        }
+    ]
+}
