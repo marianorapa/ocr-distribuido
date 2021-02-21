@@ -1,29 +1,37 @@
 package com.mrapaport.unlu.sdypp.splitter.controller;
 
 import com.mrapaport.unlu.sdypp.splitter.dto.ImagesReceivedResponseDTO;
+import com.mrapaport.unlu.sdypp.splitter.service.JWTProvider;
 import com.mrapaport.unlu.sdypp.splitter.service.ProcessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-
+import javax.servlet.ServletException;
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class ImageReceiverController {
 
     @Autowired
     ProcessorService processorService;
 
-    @PostMapping("/process-images")
-    public ResponseEntity<ImagesReceivedResponseDTO> receiveImages(@RequestBody List<MultipartFile> files) {
-        UUID uuid = processorService.processImages(files);
+    @Autowired
+    JWTProvider jwtProvider;
 
-        return new ResponseEntity<>(ImagesReceivedResponseDTO.from(uuid), HttpStatus.OK);
+    @PostMapping("/process-images")
+    public ResponseEntity<ImagesReceivedResponseDTO> receiveImages(@RequestParam List<MultipartFile> images) throws IOException, ServletException {
+
+        UUID uuid = processorService.processImages(images);
+
+        String token = jwtProvider.createToken(Map.of("jobId", uuid.toString()));
+
+        return new ResponseEntity<>(ImagesReceivedResponseDTO.from(token), HttpStatus.OK);
     }
 }
