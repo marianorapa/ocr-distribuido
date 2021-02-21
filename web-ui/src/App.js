@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Index from './components/Index';
+import Index from './pages/Index';
 import Footer from './components/Footer';
 
 
