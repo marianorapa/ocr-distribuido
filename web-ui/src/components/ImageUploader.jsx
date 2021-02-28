@@ -29,16 +29,19 @@ export default function ImageUploader(props) {
             let file = files[i];
         
             if (pictures.find(p => p.name === file.name) === undefined) {                
+                console.log("Pic added!");
                 setPictures([...pictures, file]);
             }
             else {             
+                console.log("Pic already there")
                 pictureAlreadyUploaded(file);
             }
         }        
     }
 
 
-    const processImages = () => {                
+    const processImages = () => {   
+        console.log(`Pictures to be processed ${pictures}`);             
         props.processImages(pictures);
     }
 

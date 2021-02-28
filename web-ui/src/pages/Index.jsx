@@ -11,8 +11,8 @@ export default function Index() {
     const [pictures, setPictures] = useState([]);
 
     const processImages = (pics) => {
-        ImageProcessorService.processImages(pictures);
         setPictures(pics);
+        ImageProcessorService.processImages(pics);
         setWaitingForUpload(false);        
     }
 

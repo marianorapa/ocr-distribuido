@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import ProcessedImage from './ProcessedImage'
 
 export default function ProcessedImagesList({expectedImages, receivedImages}) {
