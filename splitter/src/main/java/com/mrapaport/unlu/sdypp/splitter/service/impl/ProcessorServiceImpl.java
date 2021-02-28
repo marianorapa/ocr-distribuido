@@ -23,7 +23,12 @@ public class ProcessorServiceImpl implements ProcessorService {
     Logger logger = LoggerFactory.getLogger(ProcessorServiceImpl.class);
 
     @Override
-    public UUID processImages(List<MultipartFile> files) {
+    public UUID processImages(List<MultipartFile> files) throws IllegalArgumentException{
+
+        if (files.isEmpty()) {
+            throw new IllegalArgumentException("The list must contain at least one file");
+        }
+
         UUID uuid = generateUUID();
 
         AtomicInteger taskId = new AtomicInteger(0);

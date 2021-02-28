@@ -4,6 +4,7 @@ import com.mrapaport.unlu.sdypp.splitter.dto.ImagesReceivedResponseDTO;
 import com.mrapaport.unlu.sdypp.splitter.service.JWTProvider;
 import com.mrapaport.unlu.sdypp.splitter.service.ProcessorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,8 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@PropertySource("classpath:application.properties")
+@CrossOrigin(origins = "${cors.allowed.origins}")
 public class ImageReceiverController {
 
     @Autowired
@@ -26,7 +28,8 @@ public class ImageReceiverController {
     JWTProvider jwtProvider;
 
     @PostMapping("/process-images")
-    public ResponseEntity<ImagesReceivedResponseDTO> receiveImages(@RequestParam List<MultipartFile> images) throws IOException, ServletException {
+    public ResponseEntity<ImagesReceivedResponseDTO> receiveImages(@RequestParam List<MultipartFile> images)
+            throws IOException, ServletException {
 
         UUID uuid = processorService.processImages(images);
 

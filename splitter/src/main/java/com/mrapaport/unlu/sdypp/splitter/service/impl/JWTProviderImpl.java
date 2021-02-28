@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 @Component
-@PropertySource("application.properties")
+@PropertySource("classpath:application.properties")
 public class JWTProviderImpl implements JWTProvider {
 
     @Value("${jwt.app.secret}")

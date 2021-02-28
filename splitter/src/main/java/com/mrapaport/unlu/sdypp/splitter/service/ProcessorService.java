@@ -7,6 +7,6 @@ import java.util.UUID;
 
 public interface ProcessorService {
 
-    UUID processImages(List<MultipartFile> files);
+    UUID processImages(List<MultipartFile> files) throws IllegalArgumentException;
 
 }
