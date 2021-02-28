@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: splitter-deployment
+  labels:
+    app: splitter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: splitter
+  template:
+    metadata:
+      labels:
+        app: splitter
+    spec:
+      containers:
+      - name: splitter
+        image: ocr-splitter:latest
+        ports:
+        - containerPort: 80
+        imagePullPolicy: Never
+        env:
+          - name: RABBIT_HOST
+            value: message-broker
+          - name: RABBIT_USERNAME
+            value: guest
+          - name: RABBIT_PWD
+            value: guest
+          - name: JWT_SECRET
+            value: super_secret                                    
+          - name: CORS_ALLOWED_ORIGINS
+            value: "web-ui-service"                                             

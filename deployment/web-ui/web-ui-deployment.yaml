@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-ui-deployment
+  labels:
+    app: web-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-ui
+  template:
+    metadata:
+      labels:
+        app: web-ui
+    spec:
+      containers:
+      - name: web-ui
+        image: ocr-ui:latest
+        ports:
+        - containerPort: 80
+        imagePullPolicy: Never
+        volumeMounts:
+          #override config.js file
+          - name: config
+            mountPath: "/usr/share/nginx/html/config.js"
+            subPath: "config.js"
+      terminationGracePeriodSeconds: 10
+      volumes:
+        - name: config
+          configMap:
+            name: web-config
+            items:
+              - key: "web.properties"
+                path: "config.js"
