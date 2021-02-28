@@ -1,10 +1,10 @@
-const API_URL = "http://localhost:8080";
+const API_URL = window.REACT_APP_API_URL;
 
 const ImageProcessorService = {
     
     processImages(images) {        
+        console.log(API_URL);
         const formData = new FormData()
-
         images.forEach((image, i) => {
           formData.append("images", image)
         })

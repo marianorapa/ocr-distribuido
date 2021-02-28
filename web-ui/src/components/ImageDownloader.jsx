@@ -48,7 +48,7 @@ export default function ImageDownloader(props) {
 
     return (
         <div>                        
-            <p>{ status < 100 ? "Processing images..." : "Images done processing!"}</p>
+            <p>{ status < 100 ? "Procesando imágenes..." : "Procesamiento finalizado!"}</p>
             <ProgressBar status={status}/>            
             <ProcessedImagesList expectedImages={props.expectedImages} receivedImages={processedImages}/>        
         </div>
