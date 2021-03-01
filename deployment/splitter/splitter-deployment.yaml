@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: splitter
-        image: ocr-splitter:latest
+        image: ocr-splitter:1.2
         ports:
         - containerPort: 80
         imagePullPolicy: Never
@@ -30,4 +30,4 @@ spec:
           - name: JWT_SECRET
             value: super_secret                                    
           - name: CORS_ALLOWED_ORIGINS
-            value: "web-ui-service"                                             
+            value: "web-ui-service"

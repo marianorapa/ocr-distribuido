@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: web-ui
-        image: ocr-ui:latest
+        image: ocr-ui:1.1
         ports:
         - containerPort: 80
         imagePullPolicy: Never
