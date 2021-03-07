@@ -16,18 +16,24 @@ spec:
     spec:
       containers:
       - name: splitter
-        image: ocr-splitter:1.2
+        image: ocr-splitter:1.3
         ports:
         - containerPort: 80
         imagePullPolicy: Never
         env:
           - name: RABBIT_HOST
-            value: message-broker
+            value: "message-broker"
           - name: RABBIT_USERNAME
-            value: guest
+            valueFrom:
+              secretKeyRef:
+                name: message-broker-default-user
+                key: username
           - name: RABBIT_PWD
-            value: guest
+            valueFrom:
+              secretKeyRef:
+                name: message-broker-default-user
+                key: password
           - name: JWT_SECRET
-            value: super_secret                                    
+            value: "super_secret"                                    
           - name: CORS_ALLOWED_ORIGINS
             value: "web-ui-service"
