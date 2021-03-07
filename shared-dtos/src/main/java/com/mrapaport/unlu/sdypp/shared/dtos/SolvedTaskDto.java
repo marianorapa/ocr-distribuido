@@ -1,5 +1,7 @@
 package com.mrapaport.unlu.sdypp.shared.dtos;
 
+import com.google.gson.Gson;
+
 public class SolvedTaskDto {
 
     private String jobId;
@@ -16,6 +18,10 @@ public class SolvedTaskDto {
 
     public static SolvedTaskDto from(String jobId, String taskNumber, String ocrResult) {
         return new SolvedTaskDto(jobId, taskNumber, ocrResult);
+    }
+
+    public static SolvedTaskDto fromJson(String json) {
+        return new Gson().fromJson(json, SolvedTaskDto.class);
     }
 
     public String getJobId() {
@@ -41,4 +47,5 @@ public class SolvedTaskDto {
     public void setImageText(String imageText) {
         this.imageText = imageText;
     }
+
 }
