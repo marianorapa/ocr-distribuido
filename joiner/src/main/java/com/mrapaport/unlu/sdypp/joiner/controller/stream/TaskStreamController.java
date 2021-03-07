@@ -6,6 +6,7 @@ import com.mrapaport.unlu.sdypp.shared.dtos.SolvedTaskDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.support.GenericMessage;
 
 import java.util.function.Consumer;
 
@@ -20,8 +21,8 @@ public class TaskStreamController {
      * @return
      */
     @Bean
-    public Consumer<SolvedTaskDto> processedImages(){
-        return solvedTask -> joiner.join(solvedTask);
+    public Consumer<String> processedImages(){
+        return solvedTask -> joiner.join(SolvedTaskDto.fromJson(solvedTask));
     }
 
 }
