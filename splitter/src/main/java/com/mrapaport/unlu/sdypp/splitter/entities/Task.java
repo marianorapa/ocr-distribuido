@@ -1,5 +1,6 @@
 package com.mrapaport.unlu.sdypp.splitter.entities;
 
+import com.mrapaport.unlu.sdypp.shared.dtos.SerializedTaskDto;
 import lombok.Getter;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,8 +24,8 @@ public class Task {
         return t;
     }
 
-    public SerializedTask serialize() throws IOException {
-        return SerializedTask.from(jobId, taskNumber, file);
+    public SerializedTaskDto serialize() throws IOException {
+        return SerializedTaskDto.from(jobId, taskNumber, file.getBytes(), file.getOriginalFilename());
     }
 
     public String getUniqueId() {

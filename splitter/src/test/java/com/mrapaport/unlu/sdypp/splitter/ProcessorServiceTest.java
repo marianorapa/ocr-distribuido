@@ -1,6 +1,6 @@
 package com.mrapaport.unlu.sdypp.splitter;
 
-import com.mrapaport.unlu.sdypp.splitter.messaging.MessageBroker;
+import com.mrapaport.unlu.sdypp.splitter.controller.stream.PendingTasksStreamController;
 import com.mrapaport.unlu.sdypp.splitter.service.ProcessorService;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -8,7 +8,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,7 +26,7 @@ public class ProcessorServiceTest {
 
 //    @MockBean
     @Autowired
-    MessageBroker messageBroker;
+    PendingTasksStreamController pendingTasksStream;
 
     @Test
     public void whenProcessImagesIsGivenAnEmptyList_ShouldThrowException(){
@@ -43,7 +42,7 @@ public class ProcessorServiceTest {
         UUID uuid = processorService.processImages(files);
         Assertions.assertNotNull(uuid);
 
-        System.out.println(Mockito.mockingDetails(messageBroker).printInvocations());
+        System.out.println(Mockito.mockingDetails(pendingTasksStream).printInvocations());
 
     }
 
