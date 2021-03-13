@@ -18,14 +18,23 @@
             ]
         },
         {
-            "endpoint": "/job-status/{jobId}",
+            "endpoint": "/job/{jobId}/status",
             "backend": [
                 {
                     "host": [ "http://joiner-service:8080" ],
-                    "url_pattern": "/job-status/{jobId}"                    
+                    "url_pattern": "/job/{jobId}/status"                    
                 }
             ]
-        }
+        },
+        {
+          "endpoint": "/job/{jobId}/result",
+          "backend": [
+              {
+                  "host": [ "http://joiner-service:8080" ],
+                  "url_pattern": "/job/{jobId}/result"                    
+              }
+          ]
+      }
     ],
     "extra_config": {
         "github_com/devopsfaith/krakend-cors": {
