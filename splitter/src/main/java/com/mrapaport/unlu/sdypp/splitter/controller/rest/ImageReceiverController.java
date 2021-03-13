@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -40,7 +41,10 @@ public class ImageReceiverController {
 
         UUID uuid = processorService.processImages(images);
 
-        String token = jwtProvider.createToken(Map.of("jobId", uuid.toString()));
+        HashMap<String, String> jwtAttr = new HashMap<>();
+        jwtAttr.put("jobId", uuid.toString());
+
+        String token = jwtProvider.createToken(jwtAttr);
 
         return new ResponseEntity<>(ImagesReceivedResponseDTO.from(token), HttpStatus.OK);
     }
