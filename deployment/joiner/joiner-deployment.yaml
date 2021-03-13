@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: joiner-deployment
+  labels:
+    app: joiner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: joiner
+  template:
+    metadata:
+      labels:
+        app: joiner
+    spec:
+      containers:
+      - name: joiner
+        image: ocr-joiner:1.2
+        ports:
+        - containerPort: 80
+        imagePullPolicy: Never
+        env:
+          - name: RABBIT_HOST
+            value: "message-broker"
+          - name: RABBIT_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: message-broker-default-user
+                key: username
+          - name: RABBIT_PWD
+            valueFrom:
+              secretKeyRef:
+                name: message-broker-default-user
+                key: password
+          - name: JWT_SECRET
+            value: "super_secret"                                    
+          - name: SERVER_PORT
+            value: "8080"
+          - name: DONE_TASKS_BINDING
+            value: done-tasks
