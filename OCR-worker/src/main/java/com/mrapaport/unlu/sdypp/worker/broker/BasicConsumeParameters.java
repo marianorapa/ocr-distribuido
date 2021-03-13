@@ -1,4 +1,4 @@
-package com.mrapaport.unlu.sdypp.broker;
+package com.mrapaport.unlu.sdypp.worker.broker;
 
 import com.rabbitmq.client.CancelCallback;
 import com.rabbitmq.client.DeliverCallback;

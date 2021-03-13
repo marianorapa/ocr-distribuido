@@ -1,8 +1,9 @@
-package com.mrapaport.unlu.sdypp;
+package com.mrapaport.unlu.sdypp.worker.core;
 
 import com.google.gson.Gson;
-import com.mrapaport.unlu.sdypp.broker.MessageBroker;
-import com.mrapaport.unlu.sdypp.utils.ConfigManager;
+import com.mrapaport.unlu.sdypp.worker.Task;
+import com.mrapaport.unlu.sdypp.worker.broker.MessageBroker;
+import com.mrapaport.unlu.sdypp.worker.utils.ConfigManager;
 import com.rabbitmq.client.CancelCallback;
 import com.rabbitmq.client.DeliverCallback;
 import net.sourceforge.tess4j.Tesseract;
@@ -21,12 +22,12 @@ import java.util.UUID;
 /**
  * Main component. Contains logic related to the OCR process.
  */
-@Component
-public class OCRWorker implements Runnable {
+//@Component
+public class OcrWorker implements Runnable {
 
     private final UUID token = UUID.randomUUID();
 
-    private final Logger logger = LoggerFactory.getLogger(OCRWorker.class);
+    private final Logger logger = LoggerFactory.getLogger(OcrWorker.class);
 
     @Autowired
     private ConfigManager configManager;
@@ -44,10 +45,10 @@ public class OCRWorker implements Runnable {
 
     private void registerWithBroker() {
         try {
-            messageBroker.basicConsume(configManager.getInputQueue(), false, 1, false,
+            messageBroker.basicConsume(configManager.getInputExchange(), false, 1, false,
                     callbackFunc, cancelCallback);
         } catch (IOException e) {
-            logger.error("Error trying to consume message from queue {} - {}", configManager.getInputQueue(), e.getMessage());
+            logger.error("Error trying to consume message from queue {} - {}", configManager.getInputExchange(), e.getMessage());
             e.printStackTrace();
         }
     }

@@ -1,6 +1,6 @@
-package com.mrapaport.unlu.sdypp.broker;
+package com.mrapaport.unlu.sdypp.worker.broker;
 
-import com.mrapaport.unlu.sdypp.utils.ConfigManager;
+import com.mrapaport.unlu.sdypp.worker.utils.ConfigManager;
 import com.rabbitmq.client.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,7 @@ import java.util.concurrent.TimeoutException;
 /**
  * Encapsulates logic related to the message broker: channels, queues, connections, etc.
  */
-@Component
+//@Component
 public class MessageBroker {
 
     private final Logger logger = LoggerFactory.getLogger(MessageBroker.class);
@@ -60,7 +60,8 @@ public class MessageBroker {
     private void setupPendingSubscriptions() {
         pendingSubscriptions.forEach(params -> {
             try {
-                this.basicConsume(params.getQueue(), params.isAutoAck(), params.getPrefetchCount(), params.isGlobal(), params.getCallbackFunc(), params.getCancelCallback());
+                this.basicConsume(params.getQueue(), params.isAutoAck(), params.getPrefetchCount(), params.isGlobal(),
+                        params.getCallbackFunc(), params.getCancelCallback());
             } catch (IOException e) {
                 logger.error("Error trying to subscribe to queue {}", params.getQueue());
             }
@@ -108,18 +109,19 @@ public class MessageBroker {
         logger.info("Message broker connection established.");
 
         channel = connection.createChannel();
-        channel.queueDeclare(configManager.getInputQueue(), false, false, false, null);
-        channel.exchangeDeclare(configManager.getOutputExchange(), "fanout");
     }
 
-    public void basicConsume(String queue, boolean autoAck, int prefetchCount, boolean global,
+    public void basicConsume(String exchange, boolean autoAck, int prefetchCount, boolean global,
                              DeliverCallback callbackFunc, CancelCallback cancelCallback) throws IOException {
         if (channel != null) {
             channel.basicQos(prefetchCount, global);
+            AMQP.Queue.DeclareOk declareOk = channel.queueDeclare();
+            String queue = declareOk.getQueue();
+            channel.queueBind(queue, exchange, "*");
             channel.basicConsume(queue, autoAck, callbackFunc, cancelCallback);
         }
         else {
-            preserveSubscriptionUntilChannelIsReady(queue, autoAck, prefetchCount, global, callbackFunc, cancelCallback);
+            preserveSubscriptionUntilChannelIsReady(exchange, autoAck, prefetchCount, global, callbackFunc, cancelCallback);
         }
     }
 

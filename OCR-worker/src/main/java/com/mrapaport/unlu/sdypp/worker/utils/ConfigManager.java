@@ -1,17 +1,17 @@
-package com.mrapaport.unlu.sdypp.utils;
+package com.mrapaport.unlu.sdypp.worker.utils;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 @PropertySource("application.properties")
 @Getter
 public class ConfigManager {
 
     @Value("${broker.tasks.incoming}")
-    private String inputQueue;
+    private String inputExchange;
     @Value("${broker.tasks.outgoing}")
     private String outputExchange;
 
