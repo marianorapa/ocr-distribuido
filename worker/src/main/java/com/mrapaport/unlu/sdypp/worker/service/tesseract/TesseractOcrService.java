@@ -38,6 +38,7 @@ public class TesseractOcrService implements OcrService {
     private void setupTesseract() {
         tesseract = new Tesseract();
         tesseract.setLanguage("spa");
+
         logger.info("Tesseract initialised");
     }
 

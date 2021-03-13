@@ -25,6 +25,7 @@ public class MessageStreamController {
     public Function<SerializedTaskDto, SolvedTaskDto> pendingTasks() {
         return pendingTask -> {
             try {
+                logger.info("Processing task {} of job {}", pendingTask.getTaskNumber(), pendingTask.getJobId());
                 return service.applyOcr(pendingTask);
             } catch (TesseractException | IOException e) {
                 logger.error("Error trying to apply OCR - {}", e.getMessage());
