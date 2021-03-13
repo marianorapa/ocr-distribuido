@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: splitter
-        image: ocr-splitter:1.3
+        image: ocr-splitter:1.4
         ports:
         - containerPort: 80
         imagePullPolicy: Never
@@ -37,3 +37,5 @@ spec:
             value: "super_secret"                                    
           - name: CORS_ALLOWED_ORIGINS
             value: "web-ui-service"
+          - name: PENDING_TASKS_BINDING
+            value: pending-tasks
