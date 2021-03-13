@@ -22,12 +22,14 @@ const ImageProcessorService = {
      */
     getJobStatus() {
       let jobId = localStorage.getItem("jobId");
-      axios.get(`${API_URL}/job-status/${jobId}`)
+      axios.get(`${API_URL}/job/${jobId}/status`)
         .then(res => res.ok ? res.data.jobStatus : -1)
     },
 
     getJobResult() {
-        console.log("getJobResult() is yet unimplemented");
+      let jobId = localStorage.getItem("jobId");
+      axios.get(`${API_URL}/job/${jobId}/result`)
+        .then(res => res.ok ? res.data.jobStatus : -1)
     }
 }
 
