@@ -39,3 +39,10 @@ spec:
             value: "8080"
           - name: DONE_TASKS_BINDING
             value: done-tasks
+          - name: REDIS_HOST
+            value: my-release-redis-master
+          - name: REDIS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: my-release-redis
+                key: password
