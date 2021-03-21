@@ -1,5 +1,7 @@
 package com.mrapaport.unlu.sdypp.splitter.service.impl;
 
+import com.mrapaport.unlu.sdypp.shared.dtos.JobCreatedDto;
+import com.mrapaport.unlu.sdypp.splitter.controller.stream.JobsStreamController;
 import com.mrapaport.unlu.sdypp.splitter.controller.stream.PendingTasksStreamController;
 import com.mrapaport.unlu.sdypp.splitter.entities.Task;
 import com.mrapaport.unlu.sdypp.splitter.service.ProcessorService;
@@ -18,7 +20,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ProcessorServiceImpl implements ProcessorService {
 
     @Autowired
-    PendingTasksStreamController streamOutput;
+    PendingTasksStreamController pendingTasksStream;
+
+    @Autowired
+    JobsStreamController jobsStream;
 
     Logger logger = LoggerFactory.getLogger(ProcessorServiceImpl.class);
 
@@ -31,11 +36,13 @@ public class ProcessorServiceImpl implements ProcessorService {
 
         UUID uuid = generateUUID();
 
+        jobsStream.newJobCreated(new JobCreatedDto(uuid.toString(), files.size()));
+
         AtomicInteger taskId = new AtomicInteger(0);
         files.forEach(file -> {
             Task task = Task.from(uuid, taskId.getAndIncrement(), file);
             try {
-                streamOutput.pendingTasks(task.serialize());
+                pendingTasksStream.pendingTasks(task.serialize());
             } catch (IOException e) {
                 logger.error("There was an error trying to serialize Task {} - {}", task.getUniqueId(), e.getMessage());
                 e.printStackTrace();

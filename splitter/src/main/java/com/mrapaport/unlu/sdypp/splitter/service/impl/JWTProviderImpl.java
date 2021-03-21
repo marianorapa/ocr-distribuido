@@ -18,10 +18,10 @@ public class JWTProviderImpl implements JWTProvider {
     private String APP_SECRET;
 
     @Override
-    public String createToken(Map<String, String> payload) {
+    public String createToken(String jobId) {
         Algorithm algorithm = Algorithm.HMAC256(APP_SECRET);
         JWTCreator.Builder jwtBuilder = JWT.create();
-        payload.forEach(jwtBuilder::withClaim);
+        jwtBuilder.withClaim("jobId", jobId);
         return jwtBuilder.sign(algorithm);
     }
 }

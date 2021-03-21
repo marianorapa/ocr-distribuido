@@ -4,6 +4,6 @@ import java.util.Map;
 
 public interface JWTProvider {
 
-    String createToken(Map<String, String> payload);
+    String createToken(String jobId);
 
 }

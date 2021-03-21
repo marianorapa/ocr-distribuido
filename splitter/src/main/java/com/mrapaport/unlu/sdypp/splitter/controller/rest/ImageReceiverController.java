@@ -20,8 +20,6 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestController
-@PropertySource("classpath:application.properties")
-//@CrossOrigin(origins = {"http://web-ui-service", "http://localhost:3000"})
 @CrossOrigin(origins = "*")
 public class ImageReceiverController {
 
@@ -37,14 +35,11 @@ public class ImageReceiverController {
     public ResponseEntity<ImagesReceivedResponseDTO> receiveImages(@RequestPart("images") List<MultipartFile> images)
             throws IOException, ServletException {
 
-        logger.info("Process images request: {}", images);
+        logger.info("Process {} images request: {}", images.size(), images);
 
         UUID uuid = processorService.processImages(images);
 
-        HashMap<String, String> jwtAttr = new HashMap<>();
-        jwtAttr.put("jobId", uuid.toString());
-
-        String token = jwtProvider.createToken(jwtAttr);
+        String token = jwtProvider.createToken(uuid.toString());
 
         return new ResponseEntity<>(ImagesReceivedResponseDTO.from(token), HttpStatus.OK);
     }

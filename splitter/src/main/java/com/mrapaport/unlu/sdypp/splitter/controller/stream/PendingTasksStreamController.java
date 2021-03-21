@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.MimeType;
 
 @Component
-@PropertySource("classpath:application.properties")
 public class PendingTasksStreamController{
 
     @Autowired
