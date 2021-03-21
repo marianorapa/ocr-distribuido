@@ -45,7 +45,7 @@ public class TesseractOcrService implements OcrService {
     @Override
     public SolvedTaskDto applyOcr(SerializedTaskDto pendingTask) throws TesseractException, IOException {
         String ocrResult = this.applyOcr(pendingTask.getEncodedFile(), pendingTask.getFilename());
-        return SolvedTaskDto.from(pendingTask.getJobId(), pendingTask.getTaskNumber(), ocrResult);
+        return SolvedTaskDto.from(pendingTask.getJobId(), pendingTask.getTaskNumber(), pendingTask.getFilename(), ocrResult);
     }
 
     private String applyOcr(String encodedImage, String filename) throws TesseractException, IOException {
