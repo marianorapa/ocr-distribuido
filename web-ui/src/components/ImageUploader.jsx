@@ -14,7 +14,6 @@ export default function ImageUploader(props) {
         inputFile.current.click();
     }
 
-
     const pictureAlreadyUploaded = file => {
         setAlreadyUploadedPictures([...alreadyUploadedPictures, file])
     }

@@ -1,56 +1,54 @@
 import React, { useEffect, useState } from 'react'
-import ImageProcessorService from '../services/ImageProcessorService';
 import ProcessedImagesList from './ProcessedImagesList';
 import ProgressBar from './ProgressBar';
 
 export default function ImageDownloader(props) {
     
+    const API_URL = window.REACT_APP_API_URL;
+
     const [status, setStatus] = useState(0)
     const [processedImages, setProcessedImages] = useState([]);
     
-    const REFRESH_IMAGES = 5000;
+    const REFRESH_IMAGES = 1000;
 
-    /**
-     * Gets the job result from the service
-     */
-    const getJobResult = () => {
-        let result = ImageProcessorService.getJobResult();       
-        setProcessedImages(result.processedImages);
-    }
+    function getJobResult() {
+        console.log("Getting job result");
+        let jobId = localStorage.getItem("jobId");
+        fetch(`${API_URL}/job/${jobId}/result`)
+            .then(res => res.json())
+            .then(res => setProcessedImages(res.images))
+            // .then(res => console.log(res.images))
+      }
 
-    /**
-     * Asks the service if the job is done. When it is, gets the result
-     */
-    const checkJobFinalized = () => {
-        let status = ImageProcessorService.getJobStatus();
-        setStatus(status);
-        if (status >= 100) {
-            getJobResult();
-            return true;
-        }
-        return false;
-    }
-
-
-    /**
-     * Constantly checks if job has ended
+     /**
+     * Checks if job has ended until it does
      */
     useEffect(() => {
-        let intervalId = setInterval(()=> {
-            let finalized = checkJobFinalized();
-            if (finalized) {
-                clearInterval(intervalId);
-            }
+        let intervalId = setInterval(()=> {            
+            let url = `${API_URL}/job/${localStorage.getItem("jobId")}/status`;
+            fetch(url, {cache: "no-cache"})
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    setStatus(data.status)
+                    if (data.status >= 100){
+                        clearInterval(intervalId);
+                        getJobResult();
+                    }
+                })
+                .catch(err => setStatus(0));
         }, REFRESH_IMAGES);
     }, []);
-
 
 
     return (
         <div>                        
             <p>{ status < 100 ? "Procesando imágenes..." : "Procesamiento finalizado!"}</p>
-            <ProgressBar status={status}/>            
-            <ProcessedImagesList expectedImages={props.expectedImages} receivedImages={processedImages}/>        
+            <ProgressBar status={status}/> 
+            {processedImages ?            
+                <ProcessedImagesList expectedImages={props.expectedImages} receivedImages={processedImages}/>        
+            :   <ProcessedImagesList expectedImages={props.expectedImages} receivedImages={[]}/>       
+            }
         </div>
     )
 }

@@ -1,20 +1,36 @@
 import React, { useState } from 'react'
 import ImageDownloader from '../components/ImageDownloader';
 import ImageUploader from '../components/ImageUploader';
-
-import ImageProcessorService from '../services/ImageProcessorService';
+import axios from 'axios';
 
 export default function Index() {
+
+    const API_URL = window.REACT_APP_API_URL;
 
     const [waitingForUpload, setWaitingForUpload] = useState(true);
     
     const [pictures, setPictures] = useState([]);
 
-    const processImages = (pics) => {
+     const processImages = (pics) => {
+        localStorage.removeItem("jobId");
+        
         setPictures(pics);
-        ImageProcessorService.processImages(pics);
+        
+        const formData = new FormData()
+        pics.forEach((pic, i) => {        
+            formData.append("images", pic)
+        })
+        
+        axios.post(`${API_URL}/process-images`,  formData)
+            .then(res => res.data)
+            .then(data => {
+                localStorage.setItem("jobId", data.jobId);
+            })
+
         setWaitingForUpload(false);        
     }
+
+
 
     return (
         <div className="container">

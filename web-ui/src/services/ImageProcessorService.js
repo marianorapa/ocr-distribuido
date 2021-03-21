@@ -20,10 +20,14 @@ const ImageProcessorService = {
     /**
      * Returns a double representing the job status (0 if it hasn't began) or -1 if there's an error 
      */
-    getJobStatus() {
+    async getJobStatus() {
       let jobId = localStorage.getItem("jobId");
       axios.get(`${API_URL}/job/${jobId}/status`)
-        .then(res => res.ok ? res.data.jobStatus : -1)
+        //.then(res => res.ok ? res.data.jobStatus : -1)
+        .then(res => res.data)
+        .then(data => data.status)
+        .catch(err => 0)
+
     },
 
     getJobResult() {
