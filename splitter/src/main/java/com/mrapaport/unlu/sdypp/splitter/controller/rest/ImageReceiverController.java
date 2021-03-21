@@ -41,6 +41,8 @@ public class ImageReceiverController {
 
         String token = jwtProvider.createToken(uuid.toString());
 
+        logger.info("Returning jobId: {}", token);
+
         return new ResponseEntity<>(ImagesReceivedResponseDTO.from(token), HttpStatus.OK);
     }
 }

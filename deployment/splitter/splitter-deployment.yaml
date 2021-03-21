@@ -18,7 +18,7 @@ spec:
       - name: splitter
         image: ocr-splitter:1.4
         ports:
-        - containerPort: 80
+        - containerPort: 8080
         imagePullPolicy: Never
         env:
           - name: RABBIT_HOST
@@ -39,3 +39,7 @@ spec:
             value: "web-ui-service"
           - name: PENDING_TASKS_BINDING
             value: pending-tasks
+          - name: JOB_CREATED_BINDING
+            value: job-created
+          - name: SERVER_PORT
+            value: "8080"

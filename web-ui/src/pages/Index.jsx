@@ -24,6 +24,7 @@ export default function Index() {
         axios.post(`${API_URL}/process-images`,  formData)
             .then(res => res.data)
             .then(data => {
+                console.log(`Received jobId: ${data.jobId}`);
                 localStorage.setItem("jobId", data.jobId);
             })
 

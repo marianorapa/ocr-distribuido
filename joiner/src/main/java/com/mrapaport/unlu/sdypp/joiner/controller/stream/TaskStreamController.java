@@ -27,7 +27,7 @@ public class TaskStreamController {
     public Consumer<SolvedTaskDto> processedImages(){
         return solvedTask -> {
             joiner.join(solvedTask);
-            logger.info("Image joined correctly.");
+            logger.info("Image {}-{} joined correctly.", solvedTask.getJobId(), solvedTask.getTaskNumber());
         };
     }
 

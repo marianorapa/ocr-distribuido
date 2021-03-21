@@ -16,9 +16,9 @@ spec:
     spec:
       containers:
       - name: joiner
-        image: ocr-joiner:1.2
+        image: ocr-joiner:1.4
         ports:
-        - containerPort: 80
+        - containerPort: 8080
         imagePullPolicy: Never
         env:
           - name: RABBIT_HOST
@@ -40,9 +40,11 @@ spec:
           - name: DONE_TASKS_BINDING
             value: done-tasks
           - name: REDIS_HOST
-            value: my-release-redis-master
+            value: redis-cache-master
           - name: REDIS_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: my-release-redis
-                key: password
+                name: redis-cache
+                key: redis-password
+          - name: JOB_CREATED_BINDING
+            value: job-created

@@ -4,4 +4,4 @@ metadata:
     name: web-config
 data:
     web.properties: |
-        window.REACT_APP_API_URL= "http://192.168.49.2:30549"
+        window.REACT_APP_API_URL= "http://192.168.49.2:31527"

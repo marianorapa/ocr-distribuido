@@ -1,0 +1,61 @@
+{
+    "version": 2,
+    "name": "KrakenD",
+    "port": 8080,
+    "cache_ttl": "3600s",
+    "timeout": "3s",    
+    "endpoints": [
+        {
+            "endpoint": "/process-images",
+            "output_encoding": "no-op",
+	          "method": "POST",
+            "backend": [
+                {
+                    "encoding": "no-op",
+                    "host": [ "http://172.18.0.1:8081" ],
+                    "url_pattern": "/process-images"
+                }
+            ]
+        },
+        {
+            "endpoint": "/job/{jobId}/status",
+            "backend": [
+                {
+                    "host": [ "http://172.18.0.1:8082" ],
+                    "url_pattern": "/job/{jobId}/status"                    
+                }
+            ]
+        },
+        {
+          "endpoint": "/job/{jobId}/result",
+          "backend": [
+              {
+                  "host": [ "http://172.18.0.1:8082" ],
+                  "url_pattern": "/job/{jobId}/result"                    
+              }
+          ]
+      }
+    ],
+    "extra_config": {
+        "github_com/devopsfaith/krakend-cors": {
+          "allow_origins": [
+            "*"
+          ],
+          "allow_methods": [
+            "GET",
+            "HEAD",
+            "POST"
+          ],
+          "expose_headers": [
+            "Content-Length",
+            "Content-Type"
+          ],
+          "max_age": "12h",
+          "allow_headers": [
+            "Accept-Language"
+          ],
+          "allow_credentials": false,
+          "debug": false
+        }
+    }
+}
