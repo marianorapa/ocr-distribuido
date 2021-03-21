@@ -11,7 +11,7 @@ public class JobStatusDto {
 
     private JobStatusDto(String jobId, double status) {
         this.jobId = jobId;
-        this.status = status;
+        this.status = status * 100;
     }
 
     public static JobStatusDto from(String rawJobId, double jobStatus) {

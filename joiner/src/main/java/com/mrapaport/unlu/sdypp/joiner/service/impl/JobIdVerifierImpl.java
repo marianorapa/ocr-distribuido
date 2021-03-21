@@ -25,22 +25,20 @@ public class JobIdVerifierImpl implements JobIdVerifier {
 
     @Override
     public String verify(String rawJobId) throws JobIdException {
-
         try {
             Algorithm algorithm = Algorithm.HMAC256(APP_SECRET);
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .build();
+            JWTVerifier verifier = JWT.require(algorithm).build();
 
             DecodedJWT jwt = verifier.verify(rawJobId);
 
-            return jwt.getPayload();
+            return jwt.getClaim("jobId").asString();
 
         } catch (IllegalArgumentException e) {
             logger.error("There's an error with the APP_SECRET.");
             throw new AppSecretException();
         } catch (JWTVerificationException e) {
             logger.debug(e.getMessage());
-            throw new JobIdException("There's an error with the given job id.");
+            throw new JobIdException(String.format("There's an error with the given job id %s", rawJobId));
         }
     }
 }

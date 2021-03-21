@@ -18,22 +18,25 @@ public class JobRestController {
 
     @Autowired
     JobService jobService;
-    
+
     private Logger logger = LoggerFactory.getLogger(JobRestController.class);
 
-    @GetMapping("/job/:jobId/status")
+    @GetMapping("/job/{jobId}/status")
     public ResponseEntity<Object> jobStatus(@PathVariable String jobId){
         try {
-            logger.info("Job status request for {}", jobId);
             JobStatusDto status = jobService.getJobStatus(jobId);
             logger.info("Job status request for {} returning {}", jobId, status.getStatus());
             return new ResponseEntity<>(status, HttpStatus.OK);
         } catch (JobIdException e) {
+            logger.info("Job status request for {}, returning {}", jobId, e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            logger.info("Job status request for {}, returning {}", jobId, e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping("/job/:jobId/result")
+    @GetMapping("/job/{jobId}/result")
     public ResponseEntity<Object> jobResult(@PathVariable String jobId){
         try {
             logger.info("Job status request for {}", jobId);

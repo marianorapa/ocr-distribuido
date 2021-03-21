@@ -23,7 +23,14 @@ public interface Joiner {
     /**
      * Gets all parts of a job
      * @param jobId
-     * @return A list with each task of the job as an {@link ImageDataDto}
+     * @return A list with each task of the job as a {@link SolvedTaskDto}
      */
-    List<ImageDataDto> getJobResult(String jobId);
+    List<SolvedTaskDto> getJobResult(String jobId);
+
+    /**
+     * Saves the given job for future status check
+     * @param jobId The id of the job to access later the amtOfTasks
+     * @param amtOfTasks Number of tasks that the job contains
+     */
+    void saveJob(String jobId, int amtOfTasks);
 }

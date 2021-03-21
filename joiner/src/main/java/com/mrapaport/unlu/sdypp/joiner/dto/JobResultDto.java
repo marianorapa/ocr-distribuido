@@ -1,5 +1,6 @@
 package com.mrapaport.unlu.sdypp.joiner.dto;
 
+import com.mrapaport.unlu.sdypp.shared.dtos.SolvedTaskDto;
 import lombok.Data;
 
 import java.util.List;
@@ -9,14 +10,14 @@ public class JobResultDto {
 
     String jobId;
 
-    List<ImageDataDto> images;
+    List<SolvedTaskDto> images;
 
-    private JobResultDto(String jobId, List<ImageDataDto> images) {
+    private JobResultDto(String jobId, List<SolvedTaskDto> images) {
         this.jobId = jobId;
         this.images = images;
     }
 
-    public static JobResultDto from(String rawJobId, List<ImageDataDto> jobResult) {
+    public static JobResultDto from(String rawJobId, List<SolvedTaskDto> jobResult) {
         return new JobResultDto(rawJobId, jobResult);
     }
 }
