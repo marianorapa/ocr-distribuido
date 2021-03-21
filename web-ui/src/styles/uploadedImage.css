@@ -1,5 +1,4 @@
 .uploadedImage {    
     max-height: 150px;
-    
-    border: 2px #333 solid;
+    max-width: 100%;
 }

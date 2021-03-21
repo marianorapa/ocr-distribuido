@@ -24,18 +24,25 @@ export default function ImageUploader(props) {
 
         let files = inputFile.current.files;
 
+        console.log(`Files uploaded: ${files.length}`);
+
+        let filesToAdd = [];
+
         for (var i = 0; i < files.length; i++) {   
             let file = files[i];
         
             if (pictures.find(p => p.name === file.name) === undefined) {                
                 console.log("Pic added!");
-                setPictures([...pictures, file]);
+                filesToAdd.push(file);
             }
             else {             
                 console.log("Pic already there")
                 pictureAlreadyUploaded(file);
             }
         }        
+
+
+        setPictures([...pictures, ...filesToAdd]);
     }
 
 
@@ -62,9 +69,9 @@ export default function ImageUploader(props) {
                 <a className="btn btn-sm small px-1 py-0 bg-dark text-white" onClick={onSubirClick}>Subir imagen</a>
             
                 { alreadyUploadedPictures.length > 0 &&
-                    <div>
+                    <div className="mt-4">
                         <p>Imagen/es repetida/s:</p>
-                        <ul>
+                        <ul className="text-danger">
                         {alreadyUploadedPictures.map(picture => {
                             return(
                             <li>{picture.name}</li>   
