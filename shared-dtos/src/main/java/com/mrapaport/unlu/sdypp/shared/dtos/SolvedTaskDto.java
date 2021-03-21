@@ -8,16 +8,22 @@ public class SolvedTaskDto {
 
     private String taskNumber;
 
+    private String filename;
+
     private String imageText;
 
-    public SolvedTaskDto(String jobId, String taskNumber, String imageText) {
+    public SolvedTaskDto(String jobId, String taskNumber, String filename, String imageText) {
         this.jobId = jobId;
         this.taskNumber = taskNumber;
+        this.filename = filename;
         this.imageText = imageText;
     }
 
-    public static SolvedTaskDto from(String jobId, String taskNumber, String ocrResult) {
-        return new SolvedTaskDto(jobId, taskNumber, ocrResult);
+    public static SolvedTaskDto from(String jobId, String taskNumber, String filename, String ocrResult) {
+        return new SolvedTaskDto(jobId, taskNumber, filename, ocrResult);
+    }
+
+    public SolvedTaskDto() {
     }
 
     public static SolvedTaskDto fromJson(String json) {
@@ -40,6 +46,13 @@ public class SolvedTaskDto {
         this.taskNumber = taskNumber;
     }
 
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
     public String getImageText() {
         return imageText;
     }
